@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 双括号中，可以使用表达式，不可以使用语句 -->
+    {{ message }} {{message + message }}
+
+    <!-- id 是 message 的值 = ‘Hello World’ -->
+    <div v-bind:id="message"></div>
+
+    <!-- id 就是 ‘message’ -->
+    <div id="message"></div>
+
+    <ul>
+      <!-- <li v-for='item in list'>
+        <span v-if="!item.del">{{ item.title }}</span>
+        <span v-else style="text-decoration: line-through;">{{ item.title }}</span>
+        <button v-show="!item.del">删除</button>
+      </li> -->
+      <!-- <todo-item v-for="(item, index) in list" :key="index" :title="item.title" :del='item.del'></todo-item> -->
+    </ul>
+    <hr />
+    <todo-list></todo-list>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</body>
+<script>
+  Vue.component('todo-item', {
+    props: {
+      title: '',
+      del: false
+    },
+    template: `
+      <li>
+        <span v-if="!del">{{ title }}</span>
+        <span v-else style="text-decoration: line-through;">{{ title }}</span>
+        <button v-show="!del" @click='delClick()'>删除</button>
+      </li>
+      `,
+
+    data: function () {
+      return {}
+    },
+    methods: {
+      delClick() {
+        this.$emit('btn-click')
+      }
+    },
+  })
+
+  Vue.component('todo-list', {
+    data: function () {
+      return {
+        list: [
+          {
+            title: "Lesson1",
+            del: false
+          },
+          {
+            title: "Lesson2",
+            del: true
+          },
+          {
+            title: "Lesson3",
+            del: false
+          }
+        ]
+      }
+    },
+    template: `
+    <ul>
+      <todo-item v-for="(item, index) in list" :key="index" :title="item.title" :del='item.del' @btn-click='itemClick(item)'></todo-item>
+    </ul>`,
+    methods: {
+      itemClick(item) {
+        item.del = !item.del
+        console.log("------------  clicked")
+      }
+    }
+  })
+
+
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      message: 'Hello World'
+    },
+  })
+</script>
+
+</html>

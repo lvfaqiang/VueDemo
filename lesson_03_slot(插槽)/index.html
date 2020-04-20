@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 如果只有一个插槽，不用指定 slot='xxx(Slot Name)' 并且可以省略外出的 template 标签 -->
+    <todo-list>
+      <!-- <template> todo-list 中只有一个 slot，所以这个 template 标签可以省略掉 -->
+
+      <todo-item v-for="(item, index) in list" :key="index" :title="item.title" :del='item.del'
+        @btn-click='itemClick(item)'>
+        <!-- 添加多个插槽， -->
+
+        <!--  没有指定插槽名称的内容，会在每一个 <slot> 标签的位置添加一次。-->
+        <span>😄</span>
+        <span>😄</span>
+
+        <!-- 指定了插槽名称的标签只会添加在 对应的插槽 中。-->
+        <!--<span slot="pre-icon">PreIcon</span>
+        <span slot="suf-icon">SufIcon</span> -->
+
+        <!-- 上面是 2.5 版本之前的写法。下面是 2.6以后支持的写法  -->
+
+        <template v-slot:pre-icon='{value}'>
+          <span>PreIcon {{ value }}</span>
+        </template>
+        <template v-slot:suf-icon>
+          <p>
+            <h5>11</h5>
+            <h5>22</h5>
+          </p>
+        </template>
+
+      </todo-item>
+    </todo-list>
+
+    <!-- </template> -->
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</body>
+<script>
+  Vue.component('todo-item', {
+    props: {
+      title: '',
+      del: false
+    },
+    template: `
+      <li>
+        <slot></slot>
+        <slot name='pre-icon' :value="value"></slot>
+        <span v-if="!del">{{ title }}</span>
+        <span v-else style="text-decoration: line-through;">{{ title }}</span>
+        <slot name='suf-icon'>插槽默认值</slot>
+        <button v-show="!del" @click='delClick()'>删除</button>
+        <slot></slot>
+      </li>
+      `,
+
+    data: function () {
+      return {
+        value: Math.random()
+      }
+    },
+    methods: {
+      delClick() {
+        this.$emit('btn-click')
+      }
+    },
+  })
+
+  Vue.component('todo-list', {
+    data: function () {
+      return {
+      }
+    },
+    template: `
+    <ul>
+      <slot></slot>
+    </ul>`
+  })
+
+
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      message: 'Hello World',
+      list: [
+        {
+          title: "Lesson1",
+          del: false
+        },
+        {
+          title: "Lesson2",
+          del: true
+        },
+        {
+          title: "Lesson3",
+          del: false
+        }
+      ]
+    },
+    methods: {
+      itemClick(item) {
+        item.del = !item.del
+        console.log("------------  clicked")
+      }
+    }
+  })
+</script>
+
+</html>
