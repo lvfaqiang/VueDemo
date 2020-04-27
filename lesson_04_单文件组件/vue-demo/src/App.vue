@@ -1,5 +1,14 @@
 <template>
   <div id="app">
+    <!-- 单向数据流 -->
+    <!-- 方法一 简写形式 -->
+    <input v-model="message" placeholder="请输入内容" />
+    <!-- 方法2 非简写 -->
+    <input :value="message" @input="handleChange" />
+
+
+
+    {{ message }} {{message + message }}
     <todo-list>
       <todo-item
         v-for="(item, index) in list"
@@ -62,6 +71,10 @@ export default {
     itemClick(item) {
       item.del = !item.del;
       console.log("------------  clicked");
+    },
+    handleChange(e) {
+      this.message = e.target.value;
+      console.log(e);
     }
   }
 };
