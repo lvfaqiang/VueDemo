@@ -7,4 +7,5 @@
 - [函数式组件](https://github.com/geektime-geekbang/geektime-vue-1/tree/master/%E6%BC%94%E7%A4%BADEMO%E6%BA%90%E7%A0%81/src/views/1.6)
 - [Vuex Store 的基本使用](https://github.com/lvfaqiang/VueDemo/tree/master/lesson_05_vuex/vuex-demo1)
 - [Vuex 最佳实践](https://github.com/lvfaqiang/VueDemo/tree/master/lesson_05_vuex/vuex-demo2)
+- [Vue Router](https://github.com/lvfaqiang/VueDemo/tree/master/lesson_06_router)
 Vue test code.
